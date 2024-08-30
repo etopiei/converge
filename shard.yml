@@ -1,0 +1,27 @@
+---
+name: converge
+version: 0.1.0
+targets:
+  converge:
+    main: src/converge.cr
+crystal: '>= 1.13.2'
+dependencies:
+  lucky:
+    github: luckyframework/lucky
+    version: ~> 1.2.0
+  avram:
+    github: luckyframework/avram
+    version: ~> 1.2.0
+  carbon:
+    github: luckyframework/carbon
+    version: ~> 0.5.1
+  carbon_sendgrid_adapter:
+    github: luckyframework/carbon_sendgrid_adapter
+    version: ~> 0.5.0
+  lucky_env:
+    github: luckyframework/lucky_env
+    version: ~> 0.2.0
+  lucky_task:
+    github: luckyframework/lucky_task
+    version: ~> 0.3.0
+development_dependencies: {}
