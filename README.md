@@ -18,11 +18,20 @@ Example request to: `http://localhost:3000/api/events`
 }
 ```
 
-This will create an event with the data given in this request.
-I've yet to add GET for the event, or to create an endpoint for people to register their repsonses, but
-now that I have a handle on how to use Serializers, Operations and Actions I think this shouldn't be too bad to create.
+^This will create an event with the data given in this request.
 
-I'm mostly saving this payload here in the README as a reminder of how to POST to the endpoint.
+
+Example request to `http://localhost:3000/api/events/<event_uuid>/guest/`
+
+```
+{ name: "Guest A" }
+```
+
+And now you can also 'GET' an event at: `http://localhost:3000/api/events/<event_uuid>`
+and it will include the slots and responses.
+
+I've yet to add an endpoint for people to register their repsonses, but
+now that I have a handle on how to use Serializers, Operations and Actions I think this shouldn't be too bad to create.
 
 ### Setting up the project
 

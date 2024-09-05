@@ -17,3 +17,17 @@ class EventCreateSerializer
   property host_name : String
   property slots : Array(SerializedSlot)
 end
+
+class EventDetailSerializer < BaseSerializer
+    def initialize(@event : Event)
+    end
+
+    def render
+        {
+            name: @event.name,
+            host_name: @event.host_name,
+            slots: SlotSerializer.for_collection(@event.slots),
+            responses: ResponseSerializer.for_collection(@event.responses)
+        }
+    end
+end
