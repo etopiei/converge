@@ -1,6 +1,9 @@
 # converge
 
-This is a project written using [Lucky](https://luckyframework.org). Enjoy!
+This is the backend for converge. An app that aims to replace when2meet, but make it much easier to use on mobile.
+Initial version I think I'll just allow people to select 'days' to meet. And if that works okay I'll also include 'times' as an option.
+
+This app is built with the Lucky Framework for the Crystal programming language.
 
 ### Converge API
 
