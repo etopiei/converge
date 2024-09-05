@@ -8,7 +8,7 @@ end
 
 class Api::Event::Get < ApiAction
   get "/api/events/:event_uuid" do
-    event = EventQuery.new.preload_slots(SlotQuery.new.preload_responses).event_uuid(event_uuid).first
+    event = EventQuery.new.preload_slots(SlotQuery.new.preload_responses(ResponseQuery.new.preload_guest)).event_uuid(event_uuid).first
     json EventDetailSerializer.new(event)
   end
 end

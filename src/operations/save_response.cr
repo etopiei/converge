@@ -1,6 +1,8 @@
 class SaveResponse < Response::SaveOperation
-  # To save user provided params to the database, you must permit them
-  # https://luckyframework.org/guides/database/saving-records#perma-permitting-columns
-  #
-  # permit_columns column_1, column_2
+  needs serialized_response : ResponseCreateSerializer
+
+  before_save do
+    slot_id.value = serialized_response.slot_id
+    response.value = serialized_response.response
+  end
 end

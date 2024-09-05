@@ -30,8 +30,18 @@ Example request to `http://localhost:3000/api/events/<event_uuid>/guest/`
 And now you can also 'GET' an event at: `http://localhost:3000/api/events/<event_uuid>`
 and it will include the slots and responses.
 
-I've yet to add an endpoint for people to register their repsonses, but
-now that I have a handle on how to use Serializers, Operations and Actions I think this shouldn't be too bad to create.
+To indicate responses to event slots hit: `http://localhost:3000/api/events/<event_uuid>/responses/` with:
+
+```
+{
+  "guest_id": 4,
+  "responses": [
+    {"response": "YES", "slot_id": 8},
+    {"response": "MAYBE", "slot_id": 9},
+    {"response": "NO", "slot_id": 10}
+  ]
+}
+```
 
 ### Setting up the project
 
