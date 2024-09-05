@@ -5,12 +5,13 @@ class SerializedSlot
 end
 
 class SlotSerializer < BaseSerializer
-    def initialize(@slot : Slot)
-    end
-    def render
-        {
-            slot_type: @slot.slot_type,
-            slot_start: @slot.slot_start
-        }
-    end
+  def initialize(@slot : Slot)
+  end
+
+  def render
+    {
+      slot_type:  @slot.slot_type,
+      slot_start: @slot.slot_start,
+    }
+  end
 end

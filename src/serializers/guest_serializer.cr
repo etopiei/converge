@@ -1,12 +1,12 @@
 class GuestSerializer < BaseSerializer
-    def initialize(@guest : Guest)
-    end
+  def initialize(@guest : Guest)
+  end
 
-    def render
-        {
-            name: @guest.name
-        }
-    end
+  def render
+    {
+      name: @guest.name,
+    }
+  end
 end
 
 class GuestCreateSerializer
