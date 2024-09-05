@@ -1,5 +1,4 @@
 class Slot < BaseModel
-
   enum SlotType
     DAY
   end

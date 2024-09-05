@@ -1,6 +1,5 @@
 class Response < BaseModel
-
-  enum ResponseValue 
+  enum ResponseValue
     YES
     NO
     MAYBE

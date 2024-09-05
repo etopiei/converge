@@ -1,6 +1,8 @@
 class SaveSlot < Slot::SaveOperation
-  # To save user provided params to the database, you must permit them
-  # https://luckyframework.org/guides/database/saving-records#perma-permitting-columns
-  #
-  # permit_columns column_1, column_2
+  needs serialized_slot : SerializedSlot
+
+  before_save do
+    slot_type.value = serialized_slot.slot_type
+    slot_start.value = serialized_slot.slot_start
+  end
 end
