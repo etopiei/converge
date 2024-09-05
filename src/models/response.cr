@@ -8,7 +8,6 @@ class Response < BaseModel
   table do
     belongs_to guest : Guest
     belongs_to slot : Slot
-    belongs_to event : Event
     column response : Response::ResponseValue
   end
 end

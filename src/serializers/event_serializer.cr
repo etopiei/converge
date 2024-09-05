@@ -27,7 +27,6 @@ class EventDetailSerializer < BaseSerializer
       name:      @event.name,
       host_name: @event.host_name,
       slots:     SlotSerializer.for_collection(@event.slots),
-      responses: ResponseSerializer.for_collection(@event.responses),
     }
   end
 end

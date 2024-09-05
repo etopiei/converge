@@ -10,8 +10,10 @@ class SlotSerializer < BaseSerializer
 
   def render
     {
-      slot_type:  @slot.slot_type,
-      slot_start: @slot.slot_start,
+      id:        @slot.id,
+      type:      @slot.slot_type,
+      start:     @slot.slot_start,
+      responses: ResponseSerializer.for_collection(@slot.responses),
     }
   end
 end
