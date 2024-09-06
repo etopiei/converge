@@ -5,6 +5,7 @@ class GuestSerializer < BaseSerializer
   def render
     {
       name: @guest.name,
+      id: @guest.id,
     }
   end
 end

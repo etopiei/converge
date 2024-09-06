@@ -9,6 +9,7 @@ class AppServer < Lucky::BaseAppServer
       Lucky::LogHandler.new,
       Lucky::ErrorHandler.new(action: Errors::Show),
       Lucky::RemoteIpHandler.new,
+      CORSHandler.new,
       Lucky::RouteHandler.new,
 
       # Disabled in API mode:
