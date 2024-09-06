@@ -17,7 +17,7 @@ class ResponsesCreateSerializer
 end
 
 class ResponseCreateSerializer
-    include JSON::Serializable
-    property response : Response::ResponseValue
-    property slot_id : Int64
+  include JSON::Serializable
+  property response : Response::ResponseValue
+  property slot_id : Int64
 end
