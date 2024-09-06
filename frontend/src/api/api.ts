@@ -36,7 +36,7 @@ type GuestCreateResponse = {
     guest_id: number
 };
 
-type EventResponse = {
+export type EventResponse = {
     name: string,
     host_name: string,
     slots: SlotWithResponses[]
