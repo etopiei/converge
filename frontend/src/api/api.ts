@@ -3,7 +3,7 @@ type Slot = {
     slot_start: Date
 };
 
-type ResponseValue = "yes" | "no" | "maybe";
+export type ResponseValue = "yes" | "no" | "maybe";
 
 type Response = {
     response: ResponseValue
@@ -13,7 +13,7 @@ type Response = {
     }
 };
 
-type SlotWithResponses = {
+export type SlotWithResponses = {
     id: number,
     type: string,
     start: Date,

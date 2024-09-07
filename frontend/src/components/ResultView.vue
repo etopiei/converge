@@ -21,29 +21,32 @@ const monthConverter = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", 
     <h2>Responses</h2>
     <div v-if="eventData">
         <h3>{{ eventData.name }}</h3>
-        <div v-for="eSlot in eventData.slots">
-            <details>
-                <summary>
-                    <div class="summary-content">
-                        <span class="date-item">
-                            {{ monthConverter[new Date(eSlot.start).getMonth()] }} {{ new Date(eSlot.start).getDate() }}
-                        </span>
-                        <!-- Summarise responses here -->
-                        <Yes :count="eSlot.responses.filter((r: any) => r.response === 'yes').length"/>
-                        <Maybe :count="eSlot.responses.filter((r: any) => r.response === 'maybe').length"/>
-                        <No :count="eSlot.responses.filter((r: any) => r.response === 'no').length"/>
+        <div class="row-container">
+            <div class="row" v-for="eSlot in eventData.slots">
+                <details>
+                    <summary>
+                        <div class="summary-content">
+                            <span class="date-item">
+                                {{ monthConverter[new Date(eSlot.start).getMonth()] }} {{ new Date(eSlot.start).getDate() }}
+                            </span>
+                            <!-- Summarise responses here -->
+                            <Yes :count="eSlot.responses.filter((r: any) => r.response === 'yes').length"/>
+                            <Maybe :count="eSlot.responses.filter((r: any) => r.response === 'maybe').length"/>
+                            <No :count="eSlot.responses.filter((r: any) => r.response === 'no').length"/>
+                        </div>
+                    </summary>
+                    <!-- Render details of who said what to the event here -->
+                    <div v-if="eSlot.responses.length > 0">
+                        <p class="full-list" v-for="response in eSlot.responses">
+                            <!-- TODO: Render this more nicely (across columns) when there are lots of responses -->
+                            {{ response.guest.name }} - {{ response.response }}
+                        </p>
                     </div>
-                </summary>
-                <!-- Render details of who said what to the event here -->
-                <div v-if="eSlot.responses.length > 0">
-                    <p v-for="response in eSlot.responses">
-                        {{ response.guest.name }} - {{ response.response }}
-                    </p>
-                </div>
-                <div v-else>
-                    No responses yet.
-                </div>
-            </details>
+                    <div v-else>
+                        No responses yet.
+                    </div>
+                </details>
+            </div>
         </div>
     </div>
     <div v-else>
@@ -56,13 +59,22 @@ details {
     margin-top: 8px;
     margin-bottom: 8px;
 }
+details > div {
+    margin-left: 16px;
+    text-align: initial;
+}
 .summary-content {
+    width: 300px;
     font-size: 1.2em;
     display: inline-flex;
     flex-direction: row;
     flex-wrap: nowrap;
+    gap: 16px;
 }
 .date-item {
     margin-right: 8px;
+}
+.row-container {
+    margin-left: 32px;
 }
 </style>

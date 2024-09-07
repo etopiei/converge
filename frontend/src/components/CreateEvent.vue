@@ -11,7 +11,7 @@ const eventUuid = ref('');
 const loading = ref(false);
 const copiedFlash = ref(false);
 
-const LINK_BASE = "http://localhost:3000/?event_uuid=";
+const LINK_BASE = "http://localhost:5173/?event_uuid=";
 
 const createEventFromData = async () => {
     if (eventName.value === '' || hostName.value === '' || dates.value === undefined) {
