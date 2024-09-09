@@ -5,6 +5,13 @@ type Slot = {
 
 export type ResponseValue = "yes" | "no" | "maybe";
 
+type Guest = {
+    name: string,
+    id: number
+};
+
+type GuestResponse = Guest[];
+
 type Response = {
     response: ResponseValue
     guest: {
@@ -32,9 +39,17 @@ type EventCreateResponse = {
     event_uuid: string
 };
 
-type GuestCreateResponse = {
+type GuestCreateResponse = GuestCreateOkResponse | GuestCreateErrorResponse;
+
+type GuestCreateOkResponse = {
     guest_id: number
 };
+
+export type GuestCreateErrorResponse = {
+    message: string,
+    param: string,
+    details: string,
+}
 
 export type EventResponse = {
     name: string,
@@ -75,5 +90,10 @@ export const getEventData: (eventUuid: string) => Promise<EventResponse> = async
 
 export const sendResponses: (eventUuid: string, guestResponses: GuestResponses) => Promise<OkResponse> = async (eventUuid: string, guestResponses: GuestResponses) => {
     const response = await fetch(API_BASE + `/api/events/${eventUuid}/responses`, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(guestResponses)});
+    return await response.json();
+};
+
+export const getGuestList: (eventUuid: string) => Promise<GuestResponse> = async (eventUuid: string) => {
+    const response = await fetch(API_BASE + `/api/events/${eventUuid}/guests`);
     return await response.json();
 };

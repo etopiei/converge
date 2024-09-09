@@ -25,10 +25,15 @@ if (params.has("page") && params.get("page") === "results") {
 
 <template>
   <h1>Converge</h1>
+    <p class="tag">Find the best day to host your event</p>
+    <hr>
     <ResultView v-if="renderResultView" :eventUuid="event_uuid"/>
     <CreateEvent v-if="eventCreationView"/>
     <GuestView v-if="guestCreationView" :eventUuid="event_uuid"/>
 </template>
 
 <style scoped>
+.tag {
+  font-style: italic;
+}
 </style>

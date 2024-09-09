@@ -21,6 +21,7 @@ const monthConverter = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", 
     <h2>Responses</h2>
     <div v-if="eventData">
         <h3>{{ eventData.name }}</h3>
+        <a :href="`/?event_uuid=${props.eventUuid}`">Set or Edit Responses</a>
         <div class="row-container">
             <div class="row" v-for="eSlot in eventData.slots">
                 <details>

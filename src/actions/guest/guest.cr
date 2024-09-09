@@ -6,3 +6,11 @@ class Api::Guest::Create < ApiAction
     json({guest_id: guest.id})
   end
 end
+
+class Api::Guest::List < ApiAction
+  get "/api/events/:event_uuid/guests" do
+    event = EventQuery.new.event_uuid(event_uuid).preload_guests.first
+    guests = event.guests
+    json GuestSerializer.for_collection(guests)
+  end
+end

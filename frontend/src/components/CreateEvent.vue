@@ -32,6 +32,12 @@ const createEventFromData = async () => {
     loading.value = false;
 };
 
+const goToEventPage = () => {
+    // TODO: Ideally we would remember that we know the hosts name and register them
+    // This might require splitting up the pages more though.
+    window.location.href = `/?event_uuid=${eventUuid.value}`;
+};
+
 const copyLink = async () => {
     await navigator.clipboard.writeText(LINK_BASE + eventUuid.value);
     copiedFlash.value = true;
@@ -46,17 +52,21 @@ const copyLink = async () => {
         <input type="text" placeholder="Event Name" v-model="eventName"></input>
         <input type="text" placeholder="Host Name" v-model="hostName"></input>
         <div class="date-picker-container">
-            <VueDatePicker class="datepicker" placeholder="Choose Dates" v-model="dates" multi-dates />
+            <VueDatePicker class="datepicker" placeholder="Choose Dates" v-model="dates" multi-dates :enable-time-picker="false"/>
         </div>
         <button @click="createEventFromData">Create</button>
     </div>
     <div v-else>
         <h4>Event Created!</h4>
-        <p>Share the following link to your guests:</p>
+        <p>Share the following link with your guests:</p>
         <p class=link-text>{{ LINK_BASE + eventUuid }}</p>
         <button :class="{ flashGreen: copiedFlash }" @click=copyLink>
             {{ copiedFlash ? "Copied ✅" : "Copy Link" }}
         </button>
+        <p>
+        Once you've shared the link, set your own availability:
+        </p>
+        <button @click="goToEventPage">Set Responses</button>
     </div>
 </template>
 
