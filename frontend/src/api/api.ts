@@ -36,6 +36,7 @@ type EventData = {
 type EventCreateResponse = {
     name: string,
     host_name: string,
+    host_id: number,
     event_uuid: string
 };
 
@@ -71,7 +72,7 @@ type OkResponse = {
     ok: true
 };
 
-const API_BASE = "http://localhost:3000"
+const API_BASE = "https://converge.etopiei.com"
 
 export const createEvent: (eventData: EventData) => Promise<EventCreateResponse> = async (eventData: EventData) => {
     const response = await fetch(API_BASE + "/api/events", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(eventData)});

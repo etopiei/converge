@@ -8,10 +8,11 @@ const dates: Ref<any[] | undefined> = ref();
 const eventName = ref('');
 const hostName = ref('');
 const eventUuid = ref('');
+const hostId = ref(0);
 const loading = ref(false);
 const copiedFlash = ref(false);
 
-const LINK_BASE = "http://localhost:5173/?event_uuid=";
+const LINK_BASE = "https://converge.etopiei.com/?event_uuid=";
 
 const createEventFromData = async () => {
     if (eventName.value === '' || hostName.value === '' || dates.value === undefined) {
@@ -29,13 +30,12 @@ const createEventFromData = async () => {
     });
 
     eventUuid.value = eventResponse.event_uuid;
+    hostId.value = eventResponse.host_id;
     loading.value = false;
 };
 
-const goToEventPage = () => {
-    // TODO: Ideally we would remember that we know the hosts name and register them
-    // This might require splitting up the pages more though.
-    window.location.href = `/?event_uuid=${eventUuid.value}`;
+const goToResponseSelectionPage = () => {
+    window.location.href = `/?event_uuid=${eventUuid.value}&guest_id=${hostId.value}`;
 };
 
 const copyLink = async () => {
@@ -66,7 +66,7 @@ const copyLink = async () => {
         <p>
         Once you've shared the link, set your own availability:
         </p>
-        <button @click="goToEventPage">Set Responses</button>
+        <button @click="goToResponseSelectionPage">Set Responses</button>
     </div>
 </template>
 

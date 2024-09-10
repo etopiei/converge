@@ -7,6 +7,7 @@ class EventSerializer < BaseSerializer
       event_uuid: @event.event_uuid,
       name:       @event.name,
       host_name:  @event.host_name,
+      host_id:    @event.guests.first.id,
     }
   end
 end

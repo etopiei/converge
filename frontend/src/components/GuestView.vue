@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { Ref, onMounted, ref } from 'vue';
-import { ResponseValue, SlotWithResponses, getEventData, getGuestList, registerGuest, sendResponses } from '../api/api';
-import BigDate from './BigDate.vue';
-import TapResponse from './TapResponse.vue';
+import { getEventData, getGuestList, registerGuest } from '../api/api';
 
 const props = defineProps(['eventUuid'])
 
@@ -10,11 +8,9 @@ const guestName = ref('');
 const guestId = ref(0);
 const guestError = ref('');
 const eventData = ref();
-const slotData: Ref<Record<number, ResponseValue>> = ref({});
 const modeSelected = ref(false);
 const mode = ref('');
 const guestOptions: Ref<{text: string, value: string}[]> = ref([]);
-const buttonClicked = ref(false);
 
 onMounted(async () => {
     if (props.eventUuid) {
@@ -22,23 +18,6 @@ onMounted(async () => {
     }
 });
 
-const setSlotDataForGuest = () => {
-    eventData.value.slots.forEach((slot: SlotWithResponses) => {
-        let guestResponse: ResponseValue;
-        let currentResponseForSlot = slot.responses.find(response => response.guest.id === Number(guestId.value));
-        if (currentResponseForSlot) {
-            guestResponse = currentResponseForSlot.response;
-        } else {
-            guestResponse = "yes";
-        }
-        slotData.value[slot.id] = guestResponse;
-    });
-};
-
-const setButtonClicked = () => {
-    buttonClicked.value = true;
-    setSlotDataForGuest();
-};
 
 const setMode = async (newMode: string) => {
     mode.value = newMode;
@@ -57,44 +36,18 @@ const createGuest = async () => {
         guestError.value = "Name has already been used for this event.";
     } else {
         guestId.value = response.guest_id
-        setButtonClicked();
+        goToSelectView();
     }
 };
 
-const submit = async () => {
-    const responses = Object.entries(slotData.value).map(([slotId, response]) => {
-        return {
-            slot_id: Number(slotId),
-            response: response.toUpperCase() as ResponseValue,
-        };
-    });
-    const guestResponses = { guest_id: Number(guestId.value), responses };
-    const response = await sendResponses(props.eventUuid, guestResponses);
-    if (response.ok) {
-        window.location.href = `${window.location.protocol}//${window.location.hostname}${(location.port ? ':'+location.port: '')}/?page=results&event_uuid=${props.eventUuid}`;
-    }
+const goToSelectView = () => {
+    window.location.href = `/?event_uuid=${props.eventUuid}&guest_id=${guestId.value}`;
 };
 
-const setYes = (slotId: number) => {
-    slotData.value[slotId] = "yes";
-};
-
-const setMaybe = (slotId: number) => {
-    slotData.value[slotId]  = "maybe";
-};
-
-const setNo = (slotId: number) => {
-    slotData.value[slotId] = "no";
-};
-
-const selectAll = (going: boolean) => {
-    const funcToCall = going ? setYes : setNo;
-    Object.keys(slotData.value).forEach(slotId => funcToCall(Number(slotId)));
-};
 </script>
 
 <template>
-    <div v-if="!guestId || !buttonClicked" class="guest-reg">
+    <div class="guest-reg">
         <h3>Guest</h3>
         <p>You have been invited to
             <span :class="{eventName: eventData}">{{ eventData ? eventData.name : ' an event' }}</span>
@@ -119,36 +72,13 @@ const selectAll = (going: boolean) => {
                     </option>
                 </select>
             </div>
-            <button @click="setButtonClicked">Edit Days Available</button>
+            <button @click="goToSelectView">Edit Days Available</button>
         </div>
-    </div>
-    <div v-else-if="buttonClicked" class="response-view">
-        <button class="all-buttons yes" @click="selectAll(true)">Select 'Yes' For All</button>
-        <button class="all-buttons no" @click="selectAll(false)">Select 'No' For All</button>
-        <p>Click coloured tiles to change response.</p>
-        <div class="slots">
-            <div class="slot-row" v-if="guestId && slotData && Object.keys(slotData).length === eventData.slots.length" v-for="slot in eventData.slots">
-                <BigDate :date=slot.start />
-                <TapResponse
-                    @yes="setYes(slot.id)"
-                    @no="setNo(slot.id)"
-                    @maybe="setMaybe(slot.id)"
-                    :response=slotData[slot.id]
-                    /> 
-            </div>
-        </div>
-        <button @click="submit">Submit Responses</button>
     </div>
     <a :href="`/?page=results&event_uuid=${props.eventUuid}`">Check responses</a>
 </template>
 
 <style scoped>
-.slot-row {
-    display: flex;
-    gap: 16px;
-    margin-top: 8px;
-    margin-bottom: 8px;
-}
 .input-container {
     display: inline-flex;
     flex-direction: column;
@@ -175,20 +105,5 @@ const selectAll = (going: boolean) => {
 }
 .errorText {
     color: red;
-}
-.slots {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.all-buttons {
-    margin-left: 4px;
-    margin-right: 4px;
-}
-.yes {
-    background-color: #68ac52;
-}
-.no {
-    background-color: red;
 }
 </style>

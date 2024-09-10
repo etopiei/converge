@@ -7,3 +7,7 @@ class SaveGuest < Guest::SaveOperation
     validate_uniqueness_of name, query: GuestQuery.new.event_id(event_id.value.not_nil!)
   end
 end
+
+class SaveGuestHost < Guest::SaveOperation
+  permit_columns name, event_id
+end

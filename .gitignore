@@ -9,3 +9,4 @@ start_server
 .env
 /tmp
 frontend/node_modules
+.DS_Store
