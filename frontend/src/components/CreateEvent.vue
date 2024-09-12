@@ -12,7 +12,7 @@ const hostId = ref(0);
 const loading = ref(false);
 const copiedFlash = ref(false);
 
-const LINK_BASE = "https://converge.etopiei.com/?event_uuid=";
+const LINK_BASE = "https://converge.etopiei.net/?event_uuid=";
 
 const createEventFromData = async () => {
     if (eventName.value === '' || hostName.value === '' || dates.value === undefined) {
