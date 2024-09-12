@@ -85,10 +85,8 @@ const copyLink = async () => {
 .link-text {
     background-color: white;
     color: black;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    padding-right: 16px;
-    padding-left: 16px;
+    padding: 4px;
+    font-size: 0.8em;
 }
 .flashGreen {
     background-color: #68ac52;

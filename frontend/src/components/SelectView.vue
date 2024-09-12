@@ -92,8 +92,7 @@ const selectAll = (going: boolean) => {
     margin-bottom: 8px;
 }
 .all-buttons {
-    margin-left: 4px;
-    margin-right: 4px;
+    margin: 4px;
 }
 .yes {
     background-color: #68ac52;

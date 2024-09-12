@@ -1,52 +1,25 @@
 # converge
 
-This is the backend for converge. An app that aims to replace when2meet, but make it much easier to use on mobile.
-Initial version I think I'll just allow people to select 'days' to meet. And if that works okay I'll also include 'times' as an option.
+This is the code for converge. An app that aims to make it easier to work out what days people are free.
 
 This app is built with the Lucky Framework for the Crystal programming language.
+The frontend is written in Typescript + Vue3
 
-### Converge API
+### Local Development
 
-Example request to: `http://localhost:3000/api/events`
-
-```
-{
-  "name": "Test Event 2",
-  "host_name": "Mr Host",
-  "slots": [
-    {"slot_type": "DAY", "slot_start": "2024-09-06T14:00:00.000Z"},
-    {"slot_type": "DAY", "slot_start": "2024-09-07T14:00:00.000Z"},
-    {"slot_type": "DAY", "slot_start": "2024-09-08T14:00:00.000Z"}
-  ]
-}
-```
-
-^This will create an event with the data given in this request.
-
-
-Example request to `http://localhost:3000/api/events/<event_uuid>/guest/`
+For local development you'll have to change API_BASE and LINK_BASE to:
 
 ```
-{ name: "Guest A" }
+const API_BASE = "http://localhost:3000"
 ```
 
-And now you can also 'GET' an event at: `http://localhost:3000/api/events/<event_uuid>`
-and it will include the slots and responses.
-
-To indicate responses to event slots hit: `http://localhost:3000/api/events/<event_uuid>/responses/` with:
+and:
 
 ```
-{
-  "guest_id": 4,
-  "responses": [
-    {"response": "YES", "slot_id": 8},
-    {"response": "MAYBE", "slot_id": 9},
-    {"response": "NO", "slot_id": 10}
-  ]
-}
+const LINK_BASE = "http://localhost:5173/?event_uuid=";
 ```
 
-### Setting up the project
+### Setting up the backend 
 
 1. [Install required dependencies](https://luckyframework.org/guides/getting-started/installing#install-required-dependencies)
 1. Update database settings in `config/database.cr`
@@ -61,7 +34,52 @@ To indicate responses to event slots hit: `http://localhost:3000/api/events/<eve
 The Docker container will boot all of the necessary components needed to run your Lucky application.
 To configure the container, update the `docker-compose.yml` file, and the `docker/development.dockerfile` file.
 
+### Setting up the frontend
+
+```
+cd frontend
+npm install
+npm run dev
+```
 
 ### Learning Lucky
 
 Lucky uses the [Crystal](https://crystal-lang.org) programming language. You can learn about Lucky from the [Lucky Guides](https://luckyframework.org/guides/getting-started/why-lucky).
+
+### Deployment
+
+I am mostly writing this down in case I have to change servers at some point.
+
+Deploys are via dokku, to deploy this app:
+
+First locally (or in Docker with lucky setup) run:
+
+```
+lucky gen.secret_key
+```
+
+On server:
+
+```
+dokku apps:create converge-api.<domain.tld>
+sudo dokku plugin:install https://github.com/dokku/dokku-postgres.git
+dokku postgres:create converge
+dokku postgres:link converge converge-api.<domain.tld>
+dokku config:set converge-api.<domain.tld> LUCKY_ENV=production
+dokku config:set converge-api.<domain.tld> APP_DOMAIN=converge-api.<domain.tld>
+dokku config:set converge-api.<domain.tld> PORT=5000
+dokku postgres:info converge 
+dokku config:set converge-api.<domain.tld> DATABASE_URL=<dsn_from_above_command>
+dokku config:set converge-api.<domain.tld> SECRET_KEY_BASE=<secret_key_from_local>
+dokku config:set converge-api.<domain.tld> SEND_GRID_KEY=unused
+```
+
+On local:
+
+```
+git remote add dokku dokku@SERVER_IP:converge-api.<domain.tld>
+git push dokku main
+```
+
+And the app should get deployed!
+Follow the dokku docs to enable lets encrypt as well for https!
