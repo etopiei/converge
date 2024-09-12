@@ -5,7 +5,7 @@ This is the code for converge. An app that aims to make it easier to work out wh
 This app is built with the Lucky Framework for the Crystal programming language.
 The frontend is written in Typescript + Vue3
 
-### Local Development
+## Local Development
 
 For local development you'll have to change API_BASE and LINK_BASE to:
 
@@ -46,11 +46,13 @@ npm run dev
 
 Lucky uses the [Crystal](https://crystal-lang.org) programming language. You can learn about Lucky from the [Lucky Guides](https://luckyframework.org/guides/getting-started/why-lucky).
 
-### Deployment
+## Deployment
 
 I am mostly writing this down in case I have to change servers at some point.
 
 Deploys are via dokku, to deploy this app:
+
+## Deploying the backend:
 
 First locally (or in Docker with lucky setup) run:
 
@@ -83,3 +85,27 @@ git push dokku main
 
 And the app should get deployed!
 Follow the dokku docs to enable lets encrypt as well for https!
+
+## Deploying the frontend:
+
+On server:
+
+```
+dokku apps.create converge.<domain.tld>
+dokku config:set converge.<domain.tld> NGINX_ROOT=dist
+```
+
+On local:
+
+```
+cd frontend
+git init
+git add .
+git commit -m "App for deploy"
+git remote add dokku dokku@SERVER_IP:converge.<domain.tld>
+git push dokku main
+```
+
+And the app should get deployed now too!
+
+Now you can go to: `http://converge.<domain.tld>` and you should see the app!
