@@ -1,2 +1,2 @@
-web: ls -lh ./bin && ls -lh ./app && ./bin/app/converge
+web: ./bin/converge
 release: lucky db.migrate
